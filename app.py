@@ -85,24 +85,23 @@ if st.button("🔥 MÜJDEYİ GÖR 🔥", key="mujde_btn"):
     bar = st.progress(0)
     for i in range(1, 101):
         time.sleep(0.04)
-        if i == 99: time.sleep(2.0) # Tam burada sinirler bozulur
+        if i == 99: time.sleep(2.0)
         bar.progress(i)
-    st.error("HATA: Nil şu an çay içtiği için sürpriz yüklenemedi! Lütfen daha sonra (belki 100 yıl sonra) tekrar deneyiniz. ndmdmsmdmd")
+    st.error("HATA: Nil şu an çay içtiği için sürpriz yüklenemedi! Lütfen daha sonra tekrar deneyiniz. ndmdmsmdmd")
 
 st.divider()
 
-# --- 5. TEK KULLANIMLIK KUPONLAR VE FİNAL NOTU ---
+# --- 5. TEK KULLANIMLIK KUPONLAR ---
 st.subheader("🎟️ Sana Özel Aşk Kuponları")
-st.write("Tüm kuponları bitirdiğinde gizli bir mesaj açılacak... 👀")
 
 if 'kuponlar' not in st.session_state:
     st.session_state.kuponlar = {'cay': True, 'film': True, 'sarilma': True, 'yemek': True}
 
-# Eğer tüm kuponlar kullanıldıysa final notunu göster
+# Tüm kuponlar bitince mesajın otomatik çıkması
 if not any(st.session_state.kuponlar.values()):
     st.markdown("""
         <div class='final-not'>
-            💌 Tebrikler! Tüm kuponları başarıyla bitirdin.<br><br>
+            💌 Sürpriiiiz!<br><br>
             Sana olan sevgim bu kuponlardan çok daha fazlası. 19 Ocak'tan beri hayatımdaki en güzel şeysin. 
             Seninle her anım, her çayımız ve her hayalimiz benim için paha biçilemez. Seni çok seviyorum! ❤️
         </div>
