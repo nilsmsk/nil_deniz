@@ -22,10 +22,12 @@ st.markdown("""
         text-align: center; margin-bottom: 10px;
         border: 2px dashed #ffffff;
     }
-    .not-kutusu {
-        background-color: #fef1f2; padding: 15px; border-radius: 10px;
-        border-left: 5px solid #d63031; color: #2d3436; font-style: italic;
-        margin-top: 5px; margin-bottom: 15px;
+    .final-not {
+        background-color: #ffffff; padding: 30px; border-radius: 15px;
+        text-align: center; font-size: 24px; color: #d63031;
+        box-shadow: 0px 10px 25px rgba(214, 48, 49, 0.2);
+        border: 2px solid #d63031; margin-top: 20px;
+        font-weight: bold; line-height: 1.6;
     }
     .stButton>button {
         background-color: #d63031; color: white; border-radius: 25px;
@@ -59,7 +61,7 @@ if 'hayir_pos' not in st.session_state:
 col_evet, col_bos, col_hayir = st.columns([1, 1, 1])
 
 with col_evet:
-    if st.button("EVET! 😍"):
+    if st.button("EVET! 😍", key="net_evet"):
         st.balloons()
         st.success("Ben de seni çok seviyorum! ❤️")
 
@@ -77,57 +79,59 @@ st.markdown('<a href="https://open.spotify.com/playlist/6U7p8uMolo5wVRwp2Vn26h?s
 
 st.divider()
 
-# --- 4. TEK KULLANIMLIK KUPONLAR VE ÖZEL NOTLAR ---
-st.subheader("🎟️ Sana Özel Aşk Kuponları")
-st.write("Kuponu bozdur ve altındaki gizli notu oku! ❤️")
-
-if 'kuponlar' not in st.session_state:
-    st.session_state.kuponlar = {
-        'cay': {'active': True, 'not': "Sana en sevdiğin çayı ellerimle demleyip getireceğim. ❤️"},
-        'film': {'active': True, 'not': "Bu akşam mısırları ben patlatıyorum, filmi sen seçiyorsun! 🎬"},
-        'sarilma': {'active': True, 'not': "Dünyanın en uzun ve en huzurlu sarılması seni bekliyor. 🧸"},
-        'yemek': {'active': True, 'not': "Bugün ne yemek istersen o! Sofra benden. 🍕"}
-    }
-
-c1, c2 = st.columns(2)
-
-with c1:
-    if st.session_state.kuponlar['cay']['active']:
-        st.markdown("<div class='kupon-karti'><b>☕️ Çay Ismarlama</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: ☕️"):
-            st.session_state.kuponlar['cay']['active'] = False
-            st.balloons(); st.rerun()
-    else:
-        st.markdown(f"<div class='not-kutusu'>💌 {st.session_state.kuponlar['cay']['not']}</div>", unsafe_allow_html=True)
-
-    if st.session_state.kuponlar['film']['active']:
-        st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🎬"):
-            st.session_state.kuponlar['film']['active'] = False
-            st.balloons(); st.rerun()
-    else:
-        st.markdown(f"<div class='not-kutusu'>💌 {st.session_state.kuponlar['film']['not']}</div>", unsafe_allow_html=True)
-
-with c2:
-    if st.session_state.kuponlar['sarilma']['active']:
-        st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🧸"):
-            st.session_state.kuponlar['sarilma']['active'] = False
-            st.balloons(); st.rerun()
-    else:
-        st.markdown(f"<div class='not-kutusu'>💌 {st.session_state.kuponlar['sarilma']['not']}</div>", unsafe_allow_html=True)
-
-    if st.session_state.kuponlar['yemek']['active']:
-        st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🍕"):
-            st.session_state.kuponlar['yemek']['active'] = False
-            st.balloons(); st.rerun()
-    else:
-        st.markdown(f"<div class='not-kutusu'>💌 {st.session_state.kuponlar['yemek']['not']}</div>", unsafe_allow_html=True)
+# --- 4. SİNİR BOZUCU MÜJDE (Loading Bar) ---
+st.subheader("🎁 Çok Büyük Bir Müjde!")
+if st.button("🔥 MÜJDEYİ GÖR 🔥", key="mujde_btn"):
+    bar = st.progress(0)
+    for i in range(1, 101):
+        time.sleep(0.04)
+        if i == 99: time.sleep(2.0) # Tam burada sinirler bozulur
+        bar.progress(i)
+    st.error("HATA: Nil şu an çay içtiği için sürpriz yüklenemedi! Lütfen daha sonra (belki 100 yıl sonra) tekrar deneyiniz. ndmdmsmdmd")
 
 st.divider()
 
-# --- 5. CHALLENGER BUCKET LIST ---
+# --- 5. TEK KULLANIMLIK KUPONLAR VE FİNAL NOTU ---
+st.subheader("🎟️ Sana Özel Aşk Kuponları")
+st.write("Tüm kuponları bitirdiğinde gizli bir mesaj açılacak... 👀")
+
+if 'kuponlar' not in st.session_state:
+    st.session_state.kuponlar = {'cay': True, 'film': True, 'sarilma': True, 'yemek': True}
+
+# Eğer tüm kuponlar kullanıldıysa final notunu göster
+if not any(st.session_state.kuponlar.values()):
+    st.markdown("""
+        <div class='final-not'>
+            💌 Tebrikler! Tüm kuponları başarıyla bitirdin.<br><br>
+            Sana olan sevgim bu kuponlardan çok daha fazlası. 19 Ocak'tan beri hayatımdaki en güzel şeysin. 
+            Seninle her anım, her çayımız ve her hayalimiz benim için paha biçilemez. Seni çok seviyorum! ❤️
+        </div>
+    """, unsafe_allow_html=True)
+    st.balloons()
+else:
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.session_state.kuponlar['cay']:
+            st.markdown("<div class='kupon-karti'><b>☕️ Çay Ismarlama</b></div>", unsafe_allow_html=True)
+            if st.button("Bozdur: ☕️"):
+                st.session_state.kuponlar['cay'] = False; st.rerun()
+        if st.session_state.kuponlar['film']:
+            st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b></div>", unsafe_allow_html=True)
+            if st.button("Bozdur: 🎬"):
+                st.session_state.kuponlar['film'] = False; st.rerun()
+    with c2:
+        if st.session_state.kuponlar['sarilma']:
+            st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b></div>", unsafe_allow_html=True)
+            if st.button("Bozdur: 🧸"):
+                st.session_state.kuponlar['sarilma'] = False; st.rerun()
+        if st.session_state.kuponlar['yemek']:
+            st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b></div>", unsafe_allow_html=True)
+            if st.button("Bozdur: 🍕"):
+                st.session_state.kuponlar['yemek'] = False; st.rerun()
+
+st.divider()
+
+# --- 6. CHALLENGER BUCKET LIST ---
 st.subheader("🚀 Challenger Bucket List")
 items = ["Japonya'da kaybolmak 🇯🇵", "Edinburgh'da yarışmak 🏰", "10 km yürümek 🗺️", "Karlı havada yürüyüş ve çay ☕"]
 for item in items:
