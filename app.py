@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import random
 import os
+import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -23,22 +24,17 @@ st.markdown("""
         text-align: center; margin-bottom: 10px;
         border: 2px dashed #ffffff;
     }
-    .mesaj-kutusu {
-        background-color: #ffffff; padding: 35px; border-radius: 15px;
-        text-align: center; font-size: 22px; color: #2d3436;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.05); margin-top: 15px;
-        border-left: 10px solid #d63031;
-    }
     .stButton>button {
         background-color: #d63031; color: white; border-radius: 25px;
         padding: 10px; width: 100%; border: none; font-weight: bold;
     }
-    /* Playlist Butonu Özel Stili */
-    .playlist-btn {
-        display: block; width: 100%; text-align: center;
-        background-color: #1DB954; color: white; padding: 15px;
-        border-radius: 30px; text-decoration: none; font-weight: bold;
-        font-size: 1.2rem; margin: 20px 0;
+    /* Kaçan Buton Alanı */
+    .kacan-alan {
+        height: 200px;
+        position: relative;
+        border: 1px dashed #fab1a0;
+        border-radius: 15px;
+        margin: 20px 0;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -58,57 +54,82 @@ st.markdown(f"""
     </div>
     """, unsafe_allow_html=True)
 
-# --- 2. BİZİM PLAYLISTİMİZ ---
-st.subheader("🎵 Bizim Playlistimiz")
-st.markdown('<a href="https://open.spotify.com/playlist/6U7p8uMolo5wVRwp2Vn26h?si=oFJOcedlRx-6786wZrgxaQ" target="_blank" class="playlist-btn">🎶 Spotify\'da Dinlemeye Başla 🎶</a>', unsafe_allow_html=True)
+# --- 2. KAÇAN BUTON ŞAKASI (TRICKY QUESTION) ---
+st.subheader("🧐 Hayati Bir Soru")
+st.write("Lütfen dürüstçe cevap ver:")
+st.info("Dünyanın en tatlı, en zeki ve en muhteşem sevgilisi Nil mi?")
+
+# Butonun konumunu session_state'de tutalım
+if 'btn_pos' not in st.session_state:
+    st.session_state.btn_pos = 0
+
+# Buton her tıklandığında (veya sayfa her yüklendiğinde) yer değiştirecek
+# Streamlit yapısı gereği butona 'yaklaşınca' değil, her etkileşimde kaçacak
+col_a, col_b, col_c = st.columns([1, 1, 1])
+
+# Kaçan Buton Mantığı
+with [col_a, col_b, col_c][st.session_state.btn_pos]:
+    if st.button("EVET! 😍", key="kacan_evet"):
+        st.session_state.btn_pos = (st.session_state.btn_pos + 1) % 3
+        st.toast("Hoppa! Yakalayamazsın ki ndmdmsmdmd")
+        st.rerun()
+
+with col_b:
+    if st.button("Tabii ki Evet! ✨", key="sabit_evet"):
+        st.balloons()
+        st.success("Doğru cevap! Mühendislik analizleri de bunu doğruluyor. ❤️")
 
 st.divider()
 
-# --- 3. CHALLENGER BUCKET LIST ---
-st.subheader("🚀 Gerçekten Yapmamız Gerekenler")
-items = [
-    "Japonya'da tek bir kelime bilmeden kaybolup yolu bulmak 🇯🇵",
-    "Edinburgh Kalesi'nin en tepesine kadar yarışarak çıkmak 🏰",
-    "Hiç bilmediğimiz bir şehirde sadece haritaya bakarak 10 km yürümek 🗺️",
-    "Tüm gün sadece en sevdiğimiz şarkılar eşliğinde araba sürmek 🚗",
-    "Karlı bir havada dışarıda buz gibi bir yürüyüş sonrası sıcacık çaylarımızı içmek ☕"
-]
+# --- 3. BİZİM PLAYLISTİMİZ ---
+st.subheader("🎵 Bizim Playlistimiz")
+st.markdown('<a href="https://open.spotify.com/playlist/6U7p8uMolo5wVRwp2Vn26h?si=oFJOcedlRx-6786wZrgxaQ" target="_blank" style="display: block; width: 100%; text-align: center; background-color: #1DB954; color: white; padding: 15px; border-radius: 30px; text-decoration: none; font-weight: bold;">🎶 Spotify\'da Dinlemeye Başla 🎶</a>', unsafe_allow_html=True)
 
+st.divider()
+
+# --- 4. CHALLENGER BUCKET LIST ---
+st.subheader("🚀 Challenger Bucket List")
+items = [
+    "Japonya'da tek bir kelime bilmeden yolu bulmak 🇯🇵",
+    "Edinburgh Kalesi'nin en tepesine kadar yarışarak çıkmak 🏰",
+    "Hiç bilmediğimiz bir şehirde 10 km yürümek 🗺️",
+    "Karlı havada yürüyüş sonrası sıcacık çaylar ☕"
+]
 for item in items:
     if st.checkbox(item):
         st.balloons()
-        st.toast(f"Meydan okuma tamamlandı! ✅")
 
 st.divider()
 
-# --- 4. TEK KULLANIMLIK AŞK KUPONLARI ---
-st.subheader("🎟️ Sana Özel Aşk Kuponları")
+# --- 5. SİNİR BOZUCU LOADING ---
+st.subheader("🎁 Çok Büyük Bir Müjde!")
+if st.button("🔥 MÜJDEYİ GÖR 🔥"):
+    bar = st.progress(0)
+    for i in range(1, 101):
+        time.sleep(0.03)
+        if i == 99: time.sleep(1.5)
+        bar.progress(i)
+    st.error("HATA: Nil şu an çay içiyor, sürpriz yüklenemedi! ndmdmsmdmd")
+
+st.divider()
+
+# --- 6. TEK KULLANIMLIK KUPONLAR ---
+st.subheader("🎟️ Aşk Kuponları")
 if 'kuponlar' not in st.session_state:
     st.session_state.kuponlar = {'cay': True, 'film': True, 'sarilma': True, 'yemek': True}
 
 c1, c2 = st.columns(2)
 with c1:
     if st.session_state.kuponlar['cay']:
-        st.markdown("<div class='kupon-karti'><b>☕️ Tavşan Kanı Çay Ismarlama</b><br><small>Nil tarafından özenle demlenir.</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: ☕️", key="k1"):
-            st.session_state.kuponlar['cay'] = False
-            st.balloons(); st.rerun()
-
+        if st.button("Kuponu Bozdur: ☕️"):
+            st.session_state.kuponlar['cay'] = False; st.balloons(); st.rerun()
     if st.session_state.kuponlar['film']:
-        st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🎬", key="k2"):
-            st.session_state.kuponlar['film'] = False
-            st.balloons(); st.rerun()
-
+        if st.button("Kuponu Bozdur: 🎬"):
+            st.session_state.kuponlar['film'] = False; st.balloons(); st.rerun()
 with c2:
     if st.session_state.kuponlar['sarilma']:
-        st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🧸", key="k3"):
-            st.session_state.kuponlar['sarilma'] = False
-            st.balloons(); st.rerun()
-
+        if st.button("Kuponu Bozdur: 🧸"):
+            st.session_state.kuponlar['sarilma'] = False; st.balloons(); st.rerun()
     if st.session_state.kuponlar['yemek']:
-        st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🍕", key="k4"):
-            st.session_state.kuponlar['yemek'] = False
-            st.balloons(); st.rerun()
+        if st.button("Kuponu Bozdur: 🍕"):
+            st.session_state.kuponlar['yemek'] = False; st.balloons(); st.rerun()
