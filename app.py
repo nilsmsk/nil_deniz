@@ -29,13 +29,11 @@ st.markdown("""
         box-shadow: 2px 2px 10px rgba(0,0,0,0.05); margin-top: 15px;
         border-left: 10px solid #d63031;
     }
-    /* Kalpli Buton Stili */
     .stButton>button {
         background-color: #d63031; color: white; border-radius: 25px;
         padding: 10px; width: 100%; border: none; font-weight: bold;
-        transition: 0.3s;
     }
-    .stButton>button:hover { background-color: #ff7675; transform: scale(1.03); }
+    .stCheckbox { font-size: 18px; color: #2d3436; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -45,93 +43,84 @@ simdi = datetime.now()
 fark = relativedelta(simdi, baslangic)
 
 st.markdown("<div class='ana-baslik'>❤️ İyi ki Varsın ❤️</div>", unsafe_allow_html=True)
-
-# Saniyeyi de ekledik, canlı dursun
 st.markdown(f"""
     <div class='timer-box'>
         <p style='color: #636e72; font-size: 1.1rem; margin-bottom: 5px;'>19 Ocak 2024'ten beri...</p>
         <h2 style='color: #d63031; margin: 0;'>{fark.years} Yıl, {fark.months} Ay, {fark.days} Gün</h2>
-        <p style='color: #ff7675; font-weight: bold; font-size: 1.2rem;'>{fark.hours} Saat, {fark.minutes} Dakika, {simdi.second} Saniye...</p>
-        <p style='color: #b2bec3; font-size: 0.9rem;'>Nil seni her an daha çok seviyor.</p>
+        <p style='color: #ff7675; font-weight: bold;'>{fark.hours} Saat, {fark.minutes} Dakika, {simdi.second} Saniye...</p>
+        <p style='color: #b2bec3; font-size: 0.9rem;'>Nil seni her saniye daha çok seviyor.</p>
     </div>
     """, unsafe_allow_html=True)
 
-# --- 2. AŞK NOTLARI ---
-notlar_listesi = [
-    "Gülüşün, Nil'in çözmeye çalıştığı tüm denklemlerden daha güzel bir sonuç. ❤️",
-    "19 Ocak 2024'ten beri kalbimdeki en güzel yer senin.",
-    "Seninle içilen o bol köpüklü Türk kahvelerinin tadı başka hiçbir şeyde yok. ☕",
-    "Tokyo ve Kyoto hayallerimizi gerçekleştireceğimiz günü iple çekiyorum. ✈️",
-    "Senin zekan ve kalbin, Nil'in hayatındaki en büyük şans.",
-    "En stresli lab raporlarında bile senin desteğin bana güç veriyor.",
-    "Seninle arabada şarkı söyleyerek yaptığımız yolculuklar favori anılarım. 🚗",
-    "Hangi dilde söylersem söyleyeyim, seni sevmek kelimelere sığmıyor.",
-    "Nil'in hayatına girdiğin o günden beri her şey çok daha anlamlı. ❤️"
+# --- 2. BUCKET LIST (HAYAL LİSTESİ) ---
+st.subheader("✈️ Birlikte Yapılacaklar Listesi")
+st.write("Gerçekleştirdiğimiz her hayal için bir tık! ❤️")
+
+items = [
+    "Tokyo ve Kyoto sokaklarında kaybolmak 🇯🇵",
+    "Edinburgh'un tarihi caddelerinde yürümek 🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "Audi A3 ile plansız bir yolculuğa çıkmak 🚗",
+    "En sevdiğimiz şarkıyı bağıra çağıra söylemek 🎤",
+    "Mükemmel bir Türk kahvesi eşliğinde gün batımını izlemek ☕"
 ]
 
-st.subheader("💌 Kalbimden Sana...")
-if 'mesaj' not in st.session_state:
-    st.session_state.mesaj = "Butona bas ve Nil'den bir not oku... 👇"
+for item in items:
+    if st.checkbox(item):
+        st.balloons()
+        st.toast(f"Harika! Bir hayal daha gerçek oldu: {item}")
 
-if st.button("✨ Yeni Bir Not Oku ✨"):
-    st.session_state.mesaj = random.choice(notlar_listesi)
-    # KAR YERİNE BALONLAR (KALPLER) UÇUŞSUN!
-    st.balloons() 
-
-st.markdown(f"<div class='mesaj-kutusu'>\"{st.session_state.mesaj}\"</div>", unsafe_allow_html=True)
-
-st.write("")
 st.divider()
 
-# --- 3. TEK KULLANIMLIK AŞK KUPONLARI ---
+# --- 3. MÜZİK KUTUSU (SPOTIFY MODLARI) ---
+st.subheader("🎵 Moduna Göre Şarkımız")
+st.write("Tıkla ve o anki ruh halimize uygun şarkıyı başlat!")
+
+col_m1, col_m2 = st.columns(2)
+
+with col_m1:
+    if st.button("🔥 Enerjimiz Tavan! (Lvbel C5)"):
+        st.markdown("[Spotify'da Dinle](https://open.spotify.com/artist/57Z9S0xshO1pWz3B6B3Z9W)")
+    
+    if st.button("🌟 İkonik Hisset (Lady Gaga)"):
+        st.markdown("[Spotify'da Dinle](https://open.spotify.com/artist/1hy7t_FvBXpYh68t76Z7EA)")
+
+with col_m2:
+    if st.button("👑 Klasik ve Romantik (Tarkan)"):
+        st.markdown("[Spotify'da Dinle](https://open.spotify.com/artist/4X96pEAVS99vI97m9YvIu3)")
+        
+    if st.button("🚗 Yolculuk Modu"):
+        st.markdown("[Favori Listemizi Aç](https://open.spotify.com)")
+
+st.divider()
+
+# --- 4. TEK KULLANIMLIK AŞK KUPONLARI ---
 st.subheader("🎟️ Sana Özel Aşk Kuponları")
-st.write("Dikkat: Bu kuponlar 'Bozdur' denildiği an yok olur! ❤️")
-
-# Kuponların durumunu hafızada tutalım
 if 'kuponlar' not in st.session_state:
-    st.session_state.kuponlar = {
-        'kahve': True,
-        'film': True,
-        'sarilma': True,
-        'yemek': True
-    }
+    st.session_state.kuponlar = {'kahve': True, 'film': True, 'sarilma': True, 'yemek': True}
 
-col1, col2 = st.columns(2)
-
-with col1:
+c1, c2 = st.columns(2)
+with c1:
     if st.session_state.kuponlar['kahve']:
-        st.markdown("<div class='kupon-karti'><b>☕️ Kahve Ismarlama</b><br><small>Nil tarafından özenle yapılır.</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: ☕️", key="k1"):
+        st.markdown("<div class='kupon-karti'><b>☕️ Kahve Ismarlama</b></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Bozdur: ☕️"):
             st.session_state.kuponlar['kahve'] = False
-            st.balloons() # KAR YERİNE BALONLAR!
-            st.toast("Kupon bozduruldu ve yok oldu! Kahven hazırlanıyor. ❤️")
-            st.rerun()
+            st.balloons(); st.rerun()
 
     if st.session_state.kuponlar['film']:
-        st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b><br><small>Bu akşam kumanda tamamen sende!</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🎬", key="k2"):
+        st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Bozdur: 🎬"):
             st.session_state.kuponlar['film'] = False
-            st.balloons() # KAR YERİNE BALONLAR!
-            st.toast("Kupon bozduruldu ve yok oldu! Filmi seçme sırası sende. 😊")
-            st.rerun()
+            st.balloons(); st.rerun()
 
-with col2:
+with c2:
     if st.session_state.kuponlar['sarilma']:
-        st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b><br><small>Günün her anında geçerlidir.</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🧸", key="k3"):
+        st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Bozdur: 🧸"):
             st.session_state.kuponlar['sarilma'] = False
-            st.balloons() # KAR YERİNE BALONLAR!
-            st.toast("Kupon bozduruldu! Nil hemen yanına geliyor. ❤️")
-            st.rerun()
+            st.balloons(); st.rerun()
 
     if st.session_state.kuponlar['yemek']:
-        st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b><br><small>Akşam ne yeneceğine sen karar ver.</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🍕", key="k4"):
+        st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Bozdur: 🍕"):
             st.session_state.kuponlar['yemek'] = False
-            st.balloons() # KAR YERİNE BALONLAR!
-            st.toast("Kupon bozduruldu! Menü tamamen sende. 🍕")
-            st.rerun()
-
-# Eğer hiç kupon kalmadıysa
-if not any(st.session_state.kuponlar.values()):
-    st.info("💡 Tüm kuponlarını kullandın! Ama Nil'in sevgisi sınırsız. Sayfayı yenilersen kuponlar geri gelir. 😉")
+            st.balloons(); st.rerun()
