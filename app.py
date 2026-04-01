@@ -33,6 +33,13 @@ st.markdown("""
         background-color: #d63031; color: white; border-radius: 25px;
         padding: 10px; width: 100%; border: none; font-weight: bold;
     }
+    /* Playlist Butonu Özel Stili */
+    .playlist-btn {
+        display: block; width: 100%; text-align: center;
+        background-color: #1DB954; color: white; padding: 15px;
+        border-radius: 30px; text-decoration: none; font-weight: bold;
+        font-size: 1.2rem; margin: 20px 0;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -51,10 +58,14 @@ st.markdown(f"""
     </div>
     """, unsafe_allow_html=True)
 
-# --- 2. CHALLENGER BUCKET LIST ---
-st.subheader("🚀 Gerçekten Yapmamız Gerekenler (Challenger Edition)")
-st.write("Sınırları zorlayacağımız o anlar! ❤️")
+# --- 2. BİZİM PLAYLISTİMİZ ---
+st.subheader("🎵 Bizim Playlistimiz")
+st.markdown('<a href="https://open.spotify.com/playlist/6U7p8uMolo5wVRwp2Vn26h?si=oFJOcedlRx-6786wZrgxaQ" target="_blank" class="playlist-btn">🎶 Spotify\'da Dinlemeye Başla 🎶</a>', unsafe_allow_html=True)
 
+st.divider()
+
+# --- 3. CHALLENGER BUCKET LIST ---
+st.subheader("🚀 Gerçekten Yapmamız Gerekenler (Challenger Edition)")
 items = [
     "Japonya'da tek bir kelime bilmeden kaybolup yolu bulmak 🇯🇵",
     "Edinburgh Kalesi'nin en tepesine kadar yarışarak çıkmak 🏰",
@@ -66,23 +77,7 @@ items = [
 for item in items:
     if st.checkbox(item):
         st.balloons()
-        st.toast(f"Meydan okuma tamamlandı! ✅: {item}")
-
-st.divider()
-
-# --- 3. GÜNCELLENMİŞ MÜZİK KUTUSU ---
-st.subheader("🎵 Moduna Göre Şarkımız")
-st.write("Spotify bağlantıları güncellendi, tıkla ve başlasın!")
-
-col_m1, col_m2 = st.columns(2)
-
-with col_m1:
-    st.link_button("🔥 Enerjimiz Tavan! (Lvbel C5)", "https://open.spotify.com/playlist/37i9dQZF1DX6vN9ov8L4Vf")
-    st.link_button("🌟 İkonik Hisset (Lady Gaga)", "https://open.spotify.com/playlist/37i9dQZF1DXas9S00YatqA")
-
-with col_m2:
-    st.link_button("👑 Klasik ve Romantik (Tarkan)", "https://open.spotify.com/playlist/37i9dQZF1DX9TAt4N8Yp66")
-    st.link_button("🚗 Yolculuk Modu", "https://open.spotify.com/playlist/37i9dQZF1DX1lVhptv6ofX")
+        st.toast(f"Meydan okuma tamamlandı! ✅")
 
 st.divider()
 
@@ -95,25 +90,25 @@ c1, c2 = st.columns(2)
 with c1:
     if st.session_state.kuponlar['cay']:
         st.markdown("<div class='kupon-karti'><b>☕️ Tavşan Kanı Çay Ismarlama</b><br><small>Nil tarafından özenle demlenir.</small></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: ☕️"):
+        if st.button("Kuponu Bozdur: ☕️", key="k1"):
             st.session_state.kuponlar['cay'] = False
             st.balloons(); st.rerun()
 
     if st.session_state.kuponlar['film']:
         st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🎬"):
+        if st.button("Kuponu Bozdur: 🎬", key="k2"):
             st.session_state.kuponlar['film'] = False
             st.balloons(); st.rerun()
 
 with c2:
     if st.session_state.kuponlar['sarilma']:
         st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🧸"):
+        if st.button("Kuponu Bozdur: 🧸", key="k3"):
             st.session_state.kuponlar['sarilma'] = False
             st.balloons(); st.rerun()
 
     if st.session_state.kuponlar['yemek']:
         st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b></div>", unsafe_allow_html=True)
-        if st.button("Kuponu Bozdur: 🍕"):
+        if st.button("Kuponu Bozdur: 🍕", key="k4"):
             st.session_state.kuponlar['yemek'] = False
             st.balloons(); st.rerun()
