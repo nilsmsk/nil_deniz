@@ -65,7 +65,7 @@ st.markdown('<a href="https://open.spotify.com/playlist/6U7p8uMolo5wVRwp2Vn26h?s
 st.divider()
 
 # --- 3. CHALLENGER BUCKET LIST ---
-st.subheader("🚀 Gerçekten Yapmamız Gerekenler (Challenger Edition)")
+st.subheader("🚀 Gerçekten Yapmamız Gerekenler")
 items = [
     "Japonya'da tek bir kelime bilmeden kaybolup yolu bulmak 🇯🇵",
     "Edinburgh Kalesi'nin en tepesine kadar yarışarak çıkmak 🏰",
