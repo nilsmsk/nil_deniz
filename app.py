@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import random
 import os
-import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -21,7 +20,7 @@ st.markdown("""
     .kupon-karti {
         background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
         color: white; padding: 20px; border-radius: 15px;
-        text-align: center; margin-bottom: 15px;
+        text-align: center; margin-bottom: 10px;
         border: 2px dashed #ffffff;
     }
     .mesaj-kutusu {
@@ -37,7 +36,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 1. ZAMAN SAYACI (Güncellendi: 19 Ocak 2024) ---
+# --- 1. ZAMAN SAYACI (19 Ocak 2024) ---
 baslangic = datetime(2024, 1, 19, 0, 0)
 simdi = datetime.now()
 fark = relativedelta(simdi, baslangic)
@@ -49,32 +48,27 @@ st.markdown(f"""
         <p style='color: #636e72; font-size: 1.1rem; margin-bottom: 5px;'>19 Ocak 2024'ten beri...</p>
         <h2 style='color: #d63031; margin: 0;'>{fark.years} Yıl, {fark.months} Ay, {fark.days} Gün</h2>
         <p style='color: #ff7675; font-weight: bold; font-size: 1.2rem;'>{fark.hours} Saat, {fark.minutes} Dakika...</p>
-        <p style='color: #b2bec3; font-size: 0.9rem;'>Her saniye seninle daha güzel.</p>
+        <p style='color: #b2bec3; font-size: 0.9rem;'>Nil seni her saniye daha çok seviyor.</p>
     </div>
     """, unsafe_allow_html=True)
 
-# --- 2. GENİŞLETİLMİŞ AŞK NOTLARI ---
+# --- 2. AŞK NOTLARI ---
 notlar_listesi = [
-    "Gülüşün, çözmeye çalıştığım tüm denklemlerden daha güzel bir sonuç. ❤️",
+    "Gülüşün, Nil'in çözmeye çalıştığı tüm denklemlerden daha güzel bir sonuç. ❤️",
     "19 Ocak 2024'ten beri kalbimdeki en güzel yer senin.",
     "Seninle içilen o bol köpüklü Türk kahvelerinin tadı başka hiçbir şeyde yok. ☕",
     "Tokyo ve Kyoto hayallerimizi gerçekleştireceğimiz günü iple çekiyorum. ✈️",
     "Kodak kameramın vizöründen gördüğüm en kusursuz manzara sensin. 📸",
-    "Senin zekan ve kalbin, hayatımın en mükemmel mühendislik harikası.",
+    "Senin zekan ve kalbin, Nil'in hayatındaki en büyük şans.",
     "En stresli lab raporlarında bile senin desteğin bana güç veriyor.",
-    "Seninleyken zamanın nasıl geçtiğini anlamayacak kadar çok seviyorum seni.",
-    "Sadece sevgilim değil, en iyi dostum olduğun için teşekkür ederim.",
-    "Bakışlarındaki o sıcaklık, dünyadaki en güvenli limanım.",
     "Seninle arabada şarkı söyleyerek yaptığımız yolculuklar favori anılarım. 🚗",
-    "Hayatımın en doğru 'Evet'i seninle bu yola çıkmaktı.",
-    "Senin her başarında seninle gurur duymayı çok seviyorum.",
     "Hangi dilde söylersem söyleyeyim, seni sevmek kelimelere sığmıyor.",
-    "Seninle geçireceğimiz daha binlerce harika günümüz olsun. ❤️"
+    "Nil'in hayatına girdiğin o günden beri her şey çok daha anlamlı. ❤️"
 ]
 
 st.subheader("💌 Kalbimden Sana...")
 if 'mesaj' not in st.session_state:
-    st.session_state.mesaj = "Butona bas ve senin için hazırladığım notlardan birini oku... 👇"
+    st.session_state.mesaj = "Butona bas ve Nil'den bir not oku... 👇"
 
 if st.button("✨ Yeni Bir Not Oku ✨"):
     st.session_state.mesaj = random.choice(notlar_listesi)
@@ -85,32 +79,55 @@ st.markdown(f"<div class='mesaj-kutusu'>\"{st.session_state.mesaj}\"</div>", uns
 st.write("")
 st.divider()
 
-# --- 3. DİJİTAL AŞK KUPONLARI ---
+# --- 3. TEK KULLANIMLIK AŞK KUPONLARI ---
 st.subheader("🎟️ Sana Özel Aşk Kuponları")
-st.write("Dilediğin an kullanabileceğin, reddedilemez hakların!")
+st.write("Dikkat: Bu kuponlar 'Bozdur' denildiği an yok olur! ❤️")
+
+# Kuponların durumunu hafızada tutalım
+if 'kuponlar' not in st.session_state:
+    st.session_state.kuponlar = {
+        'kahve': True,
+        'film': True,
+        'sarilma': True,
+        'yemek': True
+    }
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("<div class='kupon-karti'><b>☕️ Kahve Ismarlama</b><br><small>Merve tarafından özenle yapılır.</small></div>", unsafe_allow_html=True)
-    if st.button("Kuponu Kullan: ☕️"):
-        st.snow()
-        st.toast("Kupon kullanıldı! Kahveler benden. ❤️")
+    if st.session_state.kuponlar['kahve']:
+        st.markdown("<div class='kupon-karti'><b>☕️ Kahve Ismarlama</b><br><small>Nil tarafından özenle yapılır.</small></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Kullan: ☕️", key="k1"):
+            st.session_state.kuponlar['kahve'] = False
+            st.snow()
+            st.toast("Kupon kullanıldı ve yok oldu! Kahven hazırlanıyor. ❤️")
+            st.rerun()
 
-    st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b><br><small>Bu akşam kumanda tamamen sende!</small></div>", unsafe_allow_html=True)
-    if st.button("Kuponu Kullan: 🎬"):
-        st.snow()
-        st.toast("Kupon kullanıldı! Filmi sen seçiyorsun. 😊")
+    if st.session_state.kuponlar['film']:
+        st.markdown("<div class='kupon-karti'><b>🎬 Film Seçme Hakkı</b><br><small>Bu akşam kumanda tamamen sende!</small></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Kullan: 🎬", key="k2"):
+            st.session_state.kuponlar['film'] = False
+            st.snow()
+            st.toast("Kupon kullanıldı ve yok oldu! Filmi seçme sırası sende. 😊")
+            st.rerun()
 
 with col2:
-    st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b><br><small>Günün her anında geçerlidir.</small></div>", unsafe_allow_html=True)
-    if st.button("Kuponu Kullan: 🧸"):
-        st.snow()
-        st.toast("Kupon kullanıldı! Hemen yanındayım. ❤️")
+    if st.session_state.kuponlar['sarilma']:
+        st.markdown("<div class='kupon-karti'><b>🧸 Sonsuz Sarılma</b><br><small>Günün her anında geçerlidir.</small></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Kullan: 🧸", key="k3"):
+            st.session_state.kuponlar['sarilma'] = False
+            st.snow()
+            st.toast("Kupon kullanıldı! Nil hemen yanına geliyor. ❤️")
+            st.rerun()
 
-    st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b><br><small>Akşam ne yeneceğine sen karar ver.</small></div>", unsafe_allow_html=True)
-    if st.button("Kuponu Kullan: 🍕"):
-        st.snow()
-        st.toast("Kupon kullanıldı! Menü sende. 🍕")
+    if st.session_state.kuponlar['yemek']:
+        st.markdown("<div class='kupon-karti'><b>🍕 Favori Yemek</b><br><small>Akşam ne yeneceğine sen karar ver.</small></div>", unsafe_allow_html=True)
+        if st.button("Kuponu Kullan: 🍕", key="k4"):
+            st.session_state.kuponlar['yemek'] = False
+            st.snow()
+            st.toast("Kupon kullanıldı! Menü tamamen sende. 🍕")
+            st.rerun()
 
-st.info("💡 Not: Bu kuponlar dijitaldir ve her zaman geçerlidir! ❤️")
+# Eğer hiç kupon kalmadıysa
+if not any(st.session_state.kuponlar.values()):
+    st.info("💡 Tüm kuponlarını kullandın! Ama Nil'in sevgisi sınırsız. Sayfayı yenilersen kuponlar geri gelir. 😉")
